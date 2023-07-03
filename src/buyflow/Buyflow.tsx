@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
+
 import AgeStep from './AgeStep'
 import EmailStep from './EmailStep'
 import SummaryStep from './SummaryStep'
+import NameStep from './NameStep'
+import { BuyFlowStep, BuyFlowInput, ProductIds } from './types'
 
 interface BuyflowProps {
   productId: ProductIds
-}
-
-export enum ProductIds {
-  devIns = 'dev_ins',
 }
 
 const PRODUCT_IDS_TO_NAMES = {
@@ -16,27 +15,43 @@ const PRODUCT_IDS_TO_NAMES = {
 }
 
 const Buyflow: React.FC<BuyflowProps> = (props) => {
-  const [currentStep, setStep] = useState('email')
-  const [collectedData, updateData] = useState({
+  const [currentStep, setStep] = useState<BuyFlowStep>(BuyFlowStep.Email)
+  const [collectedData, updateData] = useState<BuyFlowInput>({
     email: '',
     age: 0,
+    name: { first: '', last: '' },
   })
-  const getStepCallback = (nextStep: string) => (field: string, value: any) => {
-    updateData({ ...collectedData, [field]: value })
-    setStep(nextStep)
+
+  function getStepCallback<TValue>(nextStep: BuyFlowStep) {
+    return (field: keyof BuyFlowInput, value: TValue) => {
+      updateData({ ...collectedData, [field]: value })
+      setStep(nextStep)
+    }
   }
+
   return (
     <>
       <h4>Buying {PRODUCT_IDS_TO_NAMES[props.productId]}</h4>
-      {(currentStep === 'email' && <EmailStep cb={getStepCallback('age')} />) ||
-        (currentStep === 'age' && (
-          <AgeStep cb={getStepCallback('summary')} />
-        )) ||
-        (currentStep === 'summary' && (
-          <SummaryStep collectedData={collectedData} />
-        ))}
+
+      {currentStep === BuyFlowStep.Email && (
+        <EmailStep onNext={getStepCallback(BuyFlowStep.Age)} />
+      )}
+
+      {currentStep === BuyFlowStep.Age && (
+        <AgeStep onNext={getStepCallback(BuyFlowStep.Name)} />
+      )}
+
+      {currentStep === BuyFlowStep.Name && (
+        <NameStep onNext={getStepCallback(BuyFlowStep.Summary)} />
+      )}
+
+      {currentStep === BuyFlowStep.Summary && (
+        <SummaryStep collectedData={collectedData} />
+      )}
     </>
   )
 }
 
 export default Buyflow
+
+export * from './types'

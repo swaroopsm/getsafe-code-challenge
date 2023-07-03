@@ -1,16 +1,22 @@
 import React, { useState } from 'react'
+import { BuyFlowInput } from './types'
 
 interface AgeStepProps {
-  cb: (field: string, value: number) => void
+  onNext: (field: 'age', value: BuyFlowInput['age']) => void
 }
 
-const AgeStep: React.FC<AgeStepProps> = (props) => {
-  const [age, setAge] = useState(0)
+const AgeStep: React.FC<AgeStepProps> = ({ onNext }) => {
+  const [age, setAge] = useState<BuyFlowInput['age']>(0)
+
+  const handleFormSubmit = () => onNext('age', age)
+
   return (
-    <>
+    <form onSubmit={handleFormSubmit}>
       <div>
-        Age:{' '}
+        <label htmlFor="age">Age:</label>{' '}
         <input
+          autoFocus
+          id="age"
           type="number"
           onChange={({ target: { value } }) => {
             setAge(Number(value))
@@ -18,8 +24,8 @@ const AgeStep: React.FC<AgeStepProps> = (props) => {
           value={age}
         ></input>
       </div>
-      <button onClick={() => props.cb('age', age)}>Next</button>
-    </>
+      <button>Next</button>
+    </form>
   )
 }
 
