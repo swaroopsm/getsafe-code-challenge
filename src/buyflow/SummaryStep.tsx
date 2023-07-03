@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import { BuyFlowInput } from './types'
+
 interface SummaryStepProps {
-  collectedData: {
-    email: string
-    age: number
-    name: { first: string; last: string }
-  }
+  collectedData: BuyFlowInput
 }
 
 const SummaryStep: React.FC<SummaryStepProps> = (props) => {

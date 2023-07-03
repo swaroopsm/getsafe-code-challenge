@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import { BuyFlowInput } from './types'
 
 interface EmailStepProps {
-  onNext: (field: string, value: string) => void
+  onNext: (field: 'email', value: BuyFlowInput['email']) => void
 }
 
 const EmailStep: React.FC<EmailStepProps> = ({ onNext }) => {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState<BuyFlowInput['email']>('')
 
   const handleFormSubmit = () => onNext('email', email)
 
@@ -14,6 +15,7 @@ const EmailStep: React.FC<EmailStepProps> = ({ onNext }) => {
       <div>
         <label htmlFor="email">Email:</label>{' '}
         <input
+          autoFocus
           id="email"
           type="email"
           placeholder="john@example.org"

@@ -1,17 +1,22 @@
 import React, { useState } from 'react'
 
-interface Props {
-  onNext: (field: string, value: { first: string; last: string }) => void
+import { BuyFlowInput } from './types'
+
+interface NameStepProps {
+  onNext: (field: 'name', value: BuyFlowInput['name']) => void
 }
 
-export default function NameStep({ onNext }: Props) {
-  const [name, setName] = useState({ first: '', last: '' })
+export default function NameStep({ onNext }: NameStepProps) {
+  const [name, setName] = useState<BuyFlowInput['name']>({
+    first: '',
+    last: '',
+  })
 
   const handleFormSubmit = () => {
     onNext('name', name)
   }
 
-  const handleNameChange = (field: 'first' | 'last') => {
+  const handleNameChange = (field: keyof BuyFlowInput['name']) => {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
       setName({
         ...name,
@@ -25,6 +30,7 @@ export default function NameStep({ onNext }: Props) {
       <div>
         <label htmlFor="firstname">First name:</label>{' '}
         <input
+          autoFocus
           type="text"
           id="firstname"
           placeholder="John"
