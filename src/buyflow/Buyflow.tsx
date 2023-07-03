@@ -33,10 +33,10 @@ const Buyflow: React.FC<BuyflowProps> = (props) => {
     <>
       <h4>Buying {PRODUCT_IDS_TO_NAMES[props.productId]}</h4>
 
-      {currentStep === 'email' && <EmailStep cb={getStepCallback('age')} />}
+      {currentStep === 'email' && <EmailStep onNext={getStepCallback('age')} />}
 
       {currentStep === 'age' && (
-        <AgeStep cb={getStepCallback('customerDetails')} />
+        <AgeStep onNext={getStepCallback('customerDetails')} />
       )}
 
       {currentStep === 'customerDetails' && (

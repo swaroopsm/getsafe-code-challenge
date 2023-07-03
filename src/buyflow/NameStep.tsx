@@ -23,22 +23,22 @@ export default function NameStep({ onNext }: Props) {
   return (
     <form onSubmit={handleFormSubmit}>
       <div>
-        <label htmlFor="firstname">First name:</label>
+        <label htmlFor="firstname">First name:</label>{' '}
         <input
           type="text"
           id="firstname"
-          placeholder="eg: John"
+          placeholder="John"
           onChange={handleNameChange('first')}
           required
         />
       </div>
 
       <div>
-        <label htmlFor="lastname">Last name:</label>
+        <label htmlFor="lastname">Last name:</label>{' '}
         <input
           type="text"
           id="lastname"
-          placeholder="eg: Doe"
+          placeholder="Doe"
           required
           onChange={handleNameChange('last')}
         />
